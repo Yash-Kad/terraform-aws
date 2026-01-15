@@ -1,7 +1,7 @@
 *.tfstate
 *.tfstate.*
 *.tfstate.backup
-
+*.trail_errors
 .terraform/
 .terraform.lock.hcl
 
