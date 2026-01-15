@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnel Registry</title>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 { margin-bottom: 1.5rem; font-weight: 600; color: var(--primary); }
+
+        button {
+            background-color: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background-color: #7dd3fc;
+        }
+
+        button:active { transform: translateY(0); }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        li {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 0.75rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .status { font-size: 0.8rem; color: #94a3b8; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Personnel List</h2>
+    <button id="loadBtn" onclick="loadData()">Fetch Registry</button>
+    <ul id="list"></ul>
+    <div id="status" class="status">Ready to connect to Backend...</div>
+</div>
+
+<script>
+function loadData() {
+    const btn = document.getElementById("loadBtn");
+    const status = document.getElementById("status");
+    const list = document.getElementById("list");
+
+    btn.disabled = true;
+    btn.textContent = "Connecting...";
+    status.textContent = "Requesting data from Express...";
+
+    fetch("/get-data")
+        .then(response => {
+            if (!response.ok) throw new Error("Backend Unreachable");
+            return response.json();
+        })
+        .then(data => {
+            list.innerHTML = "";
+            data.forEach(person => {
+                const li = document.createElement("li");
+                // Note: Ensure your details.json has 'name' and 'age' keys
+                li.innerHTML = `<strong>${person.name}</strong> <br> <small>Age: ${person.age || 'N/A'}</small>`;
+                list.appendChild(li);
+            });
+            status.textContent = "Data successfully synchronized.";
+        })
+        .catch(err => {
+            status.textContent = "Error: " + err.message;
+            status.style.color = "#ef4444";
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = "Fetch Registry";
+        });
+}
+</script>
+
+</body>
+</html>
