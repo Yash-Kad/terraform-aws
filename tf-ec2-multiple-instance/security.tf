@@ -27,7 +27,7 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Outbound (Required for downloading updates/packages)
+ 
   egress {
     from_port   = 0
     to_port     = 0

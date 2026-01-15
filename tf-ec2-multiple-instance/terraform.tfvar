@@ -1,4 +1,0 @@
-aws_region   = "ap-south-1"
-instance_type = "t3.micro"
-ami_id        = "ami-0ced6a024bb18ff2e"
-key_name      = "tf-keypair"

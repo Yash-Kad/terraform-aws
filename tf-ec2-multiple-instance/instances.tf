@@ -1,8 +1,7 @@
-# instances.tf (Multi-Tier Application Provisioning)
 
-# -----------------------------------------------------------------------------
+
 # 1. Flask Backend Instance
-# -----------------------------------------------------------------------------
+
 resource "aws_instance" "flask_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
@@ -45,9 +44,9 @@ resource "aws_instance" "flask_server" {
   tags = { Name = "Backend_Flask" }
 }
 
-# -----------------------------------------------------------------------------
+
 # 2. Express Frontend Instance
-# -----------------------------------------------------------------------------
+
 resource "aws_instance" "express_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
