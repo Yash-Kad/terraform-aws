@@ -28,3 +28,6 @@ Thumbs.db
 .aws/
 credentials
 aws_keys.csv
+
+
+tf-ecs-ecr-vpc-alb/trial_errors.txt
